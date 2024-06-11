@@ -112,4 +112,11 @@ class FibonacciController extends Controller
             ], 422);
         }
     }
+    
+    // Deleta uma consulta especifica do calculo feito
+    public function destroy(FibonacciQuery $query): JsonResponse
+    {
+        $query->delete();
+        return response()->json(['message' => 'Fibonacci query deleted successfully']);
+    }
 }
