@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/fibonacci', [FibonacciController::class, "calculate"]);
+Route::get('/fibonacci', [FibonacciController::class, 'index']);

@@ -33,4 +33,18 @@ class FibonacciController extends Controller
         } 
     }
 
+    public function index(Request $request): JsonResponse
+    {
+        $queries = FibonacciQuery::query();
+
+        if ($request->has('name')) {
+            $queries->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        if ($request->has('value')) {
+            $queries->where('value', $request->input('value'));
+        }
+
+        return response()->json($queries->get());
+    }
 }
