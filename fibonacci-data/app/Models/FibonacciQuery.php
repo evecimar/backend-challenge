@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class FibonacciQuery extends Model
 {
     protected $fillable = ['name', 'value', 'result'];
+    protected $casts = [
+        'result' => 'decimal:0',
+    ];
+    
     public $timestamps = false;
     
     protected static function booted()

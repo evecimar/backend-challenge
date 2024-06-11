@@ -54,6 +54,7 @@ class FibonacciController extends Controller
     public function show(FibonacciQuery $query): JsonResponse
     {   
         return response()->json([
+            'id' => $query->id,
             'name' => $query->name,
             'value' => $query->value,
             'result' => $query->result,
