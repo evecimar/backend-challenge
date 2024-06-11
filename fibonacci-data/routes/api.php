@@ -22,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/fibonacci', [FibonacciController::class, "calculate"]);
 Route::get('/fibonacci', [FibonacciController::class, 'index']);
 Route::get('/fibonacci/{query}', [FibonacciController::class, 'show']);
+Route::put('/fibonacci/{query}', [FibonacciController::class, 'update']); 
+Route::patch('/fibonacci/{query}', [FibonacciController::class, 'partialUpdate']);

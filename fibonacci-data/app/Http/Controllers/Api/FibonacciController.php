@@ -59,4 +59,57 @@ class FibonacciController extends Controller
             'result' => $query->result,
         ]);
     }
+
+    // Faz update completo de uma consulta especifica do calculo feito
+    public function update(Request $request, FibonacciQuery $query): JsonResponse
+    {
+    
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:100',
+                'value' => 'required|integer|min:0|max:100',
+            ]);
+
+            $query->update($validatedData);
+
+            $query->result = $query->calculateFibonacci();
+            $query->save();
+
+            return response()->json($query);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation error',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+    }
+
+    // Faz update parcial de uma consulta especifica do calculo feito
+    public function partialUpdate(Request $request, FibonacciQuery $query): JsonResponse
+    {
+        try {
+            $rules = [];
+            if ($request->has('name')) {
+                $rules['name'] = 'string|max:100';
+            }
+            if ($request->has('value')) {
+                $rules['value'] = 'integer|min:0|max:100';
+            }
+            $validatedData = $request->validate($rules);
+
+            $query->update($validatedData);
+
+            if ($request->has('value')) {
+                $query->result = $query->calculateFibonacci();
+                $query->save();
+            }
+
+            return response()->json($query);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation error',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+    }
 }
