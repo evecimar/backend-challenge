@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 
 class FibonacciController extends Controller
 {
+    // Faz calculo de fibonacci de acordo com o valor passado
     public function calculate(Request $request): JsonResponse
     {
         try {
@@ -33,6 +34,7 @@ class FibonacciController extends Controller
         } 
     }
 
+    // Mostrar todas as consultas de fibonacci
     public function index(Request $request): JsonResponse
     {
         $queries = FibonacciQuery::query();
@@ -46,5 +48,15 @@ class FibonacciController extends Controller
         }
 
         return response()->json($queries->get());
+    }
+
+    // Mostra uma consulta especifica do calculo feito
+    public function show(FibonacciQuery $query): JsonResponse
+    {   
+        return response()->json([
+            'name' => $query->name,
+            'value' => $query->value,
+            'result' => $query->result,
+        ]);
     }
 }
