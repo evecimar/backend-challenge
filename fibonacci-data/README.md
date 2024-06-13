@@ -1,66 +1,208 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Fibonacci Data App API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Esta API, desenvolvida em Laravel, permite calcular e armazenar números de Fibonacci junto com uma string. O projeto foi desenvolvido para ser executado dentro de um container Docker, facilitando a configuração e portabilidade.
 
-## About Laravel
+## Primeiros Passos:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Pré-requisitos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Docker instalado em seu sistema: https://www.docker.com/get-started
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Instalação
 
-## Learning Laravel
+1.  **Clone o Repositório:**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    ```bash
+    git clone [git@github.com:kaiorosa1/backend-challenge-kaio-rosa.git]
+    ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+2.  **Configurar as Variáveis de Ambiente:**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    -   Crie uma cópia do arquivo `.env.example` e renomeie para `.env`.
 
-## Laravel Sponsors
+    -  Preencha as variáveis de ambiente necessárias:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+        -   `DB_DATABASE`:  O nome do seu banco de dados MySQL.
+        -   `DB_USERNAME`:  Seu nome de usuário do MySQL.
+        -   `DB_PASSWORD`: Seu senha do MySQL.
+        -   `DB_HOST`: O host do MySQL.
 
-### Premium Partners
+3.  **Fazer o Build e Rodar com Docker Compose:**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+    ```bash
+    docker-compose up -d --build
+    ```
 
-## Contributing
+    Este comando irá construir as imagens Docker necessárias e iniciar os containeres para seu aplicativo Laravel e o banco de dados MySQL.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Executando as Migrações (Migrations)
 
-## Code of Conduct
+Para executar as migrações da API, execute o seguinte comando no diretório raiz do seu projeto:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+docker-compose exec fibonaccidataapp php artisan migrate
+```
 
-## Security Vulnerabilities
+## Executando os Testes
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Para executar os testes automatizados da API, execute o seguinte comando no diretório raiz do seu projeto:
 
-## License
+```bash
+docker-compose exec fibonaccidataapp php artisan test
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Endpoints da API
+
+### Calcular Fibonacci - (1,2)
+
+-   **URL:** `/api/fibonacci`
+-   **Método:** `POST`
+-   **Corpo da Requisição (JSON):**
+
+    ```json
+    {
+        "name": "John Doe",
+        "value": 10
+    }
+    ```
+
+-   **Resposta (JSON):**
+
+    ```json
+    {
+        "id": 1,
+        "name": "John Doe",
+        "value": 10,
+        "result": 55
+    }
+    ```
+
+### Listar todas as Consultas Fibonacci: - (3)
+
+-   **URL:** `/api/fibonacci`
+-   **Método:** `GET`
+-   **Resposta (JSON):**
+
+    ```json
+    [
+        {"id": 1, "name": "Alice", "value": 12, "result": 144},
+        {"id": 2, "name": "Bob", "value": 8, "result": 21}
+    ]
+    ```
+
+
+### Obter uma Consulta  fibonacci especifica - (4)
+
+-   **URL:** `/api/fibonacci/{id}` (Substitua `{id}` pelo ID da consulta)
+-   **Método:** `GET`
+-   **Resposta (JSON):**
+
+    ```json
+    {
+        "id": 1,
+        "name": "John Doe",
+        "value": 10,
+        "result": 55
+    }
+    ```
+
+### Filtrando Consultas Fibonacci: - (5)
+
+### Filtro Consultas Fibonacci por nome
+
+-   **URL:** `/api/fibonacci?name=Alice`
+-   **Método:** `GET`
+-   **Resposta (JSON):**
+
+    ```json
+    [
+        {"id": 1, "name": "Alice", "value": 12, "result": 144}
+    ]
+    ```
+    
+### Filtro Consultas Fibonacci por valor
+
+-   **URL:** `/api/fibonacci?value=8`
+-   **Método:** `GET`
+-   **Resposta (JSON):**
+
+    ```json
+    [
+        {"id": 2, "name": "Bob", "value": 8, "result": 21}
+    ]
+    ```
+
+###  Filtro Consultas Fibonacci por nome e valor
+
+-   **URL:** `/api/fibonacci?name=Bob&value=8`
+-   **Método:** `GET`
+-   **Resposta (JSON):**
+
+    ```json
+    [
+        {"id": 2, "name": "Bob", "value": 8, "result": 21}
+    ]
+    ```
+
+
+### Atualizar Consulta Fibonacci (Atualização Parcial) - (6)
+
+-   **URL:** `/api/fibonacci/{id}`
+-   **Método:** `PATCH`
+-   **Corpo da Requisição (JSON):** (Apenas os campos que você deseja atualizar)
+
+    ```json
+    {
+        "name": "Alice"
+    }
+    ```
+
+-   **Resposta (JSON):**
+
+    ```json
+    {
+        "id": 1,
+        "name": "Alice",
+        "value": 12, // Não alterado
+        "result": 144  // Não alterado
+    }
+    ```
+
+### Atualizar Consulta Fibonacci (Atualização Completa) - (7)
+
+-   **URL:** `/api/fibonacci/{id}`
+-   **Método:** `PUT`
+-   **Corpo da Requisição (JSON):** (Todos os campos são obrigatórios)
+
+    ```json
+    {
+        "name": "Jane Doe",
+        "value": 12
+    }
+    ```
+
+-   **Resposta (JSON):**
+
+    ```json
+    {
+        "id": 1,
+        "name": "Jane Doe",
+        "value": 12,
+        "result": 144
+    }
+    ```
+
+
+
+### Deletar Consulta Fibonacci - (8)
+
+-   **URL:** `/api/fibonacci/{id}`
+-   **Método:** `DELETE`
+-   **Resposta (JSON):**
+
+    ```json
+    {
+        "message": "Fibonacci query deleted successfully"
+    }
+    ```
+
